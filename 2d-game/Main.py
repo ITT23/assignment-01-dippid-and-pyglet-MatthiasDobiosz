@@ -17,10 +17,10 @@ window = pyglet.window.Window(WINDOW_WIDTH, WINDOW_HEIGHT)
 # load images and adjust bounding boxes
 # Images taken from https://opengameart.org/content/free-top-down-car-sprites-by-unlucky-studio
 
-playerImage = pyglet.image.load('../assets/Audi.png')
+playerImage = pyglet.image.load('assets/Audi.png')
 playerImageWithBoundingBox = ImageWithBoundingBox(playerImage, 80, 80, 10, 27)
 
-enemyImage = pyglet.image.load('../assets/taxi.png')
+enemyImage = pyglet.image.load('assets/taxi.png')
 enemyImageWithBoundingBox = ImageWithBoundingBox(enemyImage, 80, 80, 20, 10)
 
 
