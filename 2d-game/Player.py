@@ -1,8 +1,8 @@
 import pyglet
-from pyglet import shapes
 from Config import WINDOW_WIDTH
 
 
+# Player class that creates the car and handles movement
 class Player:
 
     def __init__(self, img):

@@ -11,13 +11,14 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 buttonClicked = True
 timeSinceLastButtonEvent = time.time()
 
-num_samples = 100
+# segment sinewave into 100 samples
+num_samples = 1000
 sinetime = np.arange(0, 1, 1/num_samples)
 
 # Create 3 different Sinewaves
 sinewave1 = np.sin(2 * np.pi * 1 * sinetime)
-sinewave2 = np.sin(2 * np.pi * 1.1 * sinetime)
-sinewave3 = np.sin(2 * np.pi * 1.2 * sinetime)
+sinewave2 = np.sin(2 * np.pi * 1.3 * sinetime)
+sinewave3 = np.sin(2 * np.pi * 1.6 * sinetime)
 
 sincount = 0
 
@@ -26,7 +27,7 @@ while True:
     buttonMessage = ''
     accMessage = {}
 
-    # random time has passed switch button
+    # if random time has passed switch the button value and update global timer
     if time.time() > buttonTime + timeSinceLastButtonEvent:
         if buttonClicked:
             buttonMessage = '{"button_1" : ' + str(0) + '}'

@@ -30,12 +30,13 @@ class Game:
     def __init__(self):
 
         self.player = Player(playerImageWithBoundingBox)
-        self.cars = []
+        self.enemyCars = []
         self.strips = []
         self.score = 0
         self.isGameOver = False
         self.currentSpeed = 2
         self.levelTimer = 0
+
         # Create Road once when game is initialized
         self.create_road()
 
@@ -110,15 +111,16 @@ class Game:
             self.currentSpeed = 8
         self.levelTimer = 0
 
+    # Check if Player and EnemyCars collide
     def check_collision(self):
-        for car in self.cars:
+        for car in self.enemyCars:
             if car.sprite_y <= self.player.height:
                 x1_player = self.player.spriteX
                 x2_player = self.player.spriteX + self.player.width
                 x1_enemy = car.sprite_x
                 x2_enemy = car.sprite_x + car.width
                 if (x1_player <= x2_enemy) and (x2_player >= x1_enemy):
-                    self.cars.remove(car)
+                    self.enemyCars.remove(car)
                     self.player.checkLives()
 
     def reset(self):
@@ -126,9 +128,10 @@ class Game:
         self.levelTimer = 0
         self.score = 0
         self.isGameOver = False
-        self.cars = []
+        self.enemyCars = []
         self.player.reset()
 
+    # display current Level and Score
     def drawLabels(self):
         level = '1' if self.currentSpeed == 2 else '2' if self.currentSpeed == 4 else '3'
         self.player.label.draw()
@@ -146,36 +149,35 @@ class Game:
             anchor_x='left', anchor_y='center').draw()
 
     def update_cars(self, speed):
-        for car in self.cars:
+        for car in self.enemyCars:
             car.update(speed)
             if car.sprite_y < -car.height:
-                self.cars.remove(car)
+                self.enemyCars.remove(car)
 
     # only create a car if it doesnt overlap with existing
     def no_overlap(self, new_car):
-        for car in self.cars:
+        for car in self.enemyCars:
             if car.y + car.height > new_car.y:
                 return False
         return True
 
     def draw_cars(self):
-        for car in self.cars:
+        for car in self.enemyCars:
             car.draw()
 
     # Create car in random position
     def create_car(self, delta_time):
         if random.randint(0, 10) == 0:
-           # x = random.randint(0,
-                              # WINDOW_WIDTH - enemyImageWithBoundingBox.width - enemyImageWithBoundingBox.offset_left)
-            x = 280
+            x = random.randint(0, WINDOW_WIDTH - enemyImageWithBoundingBox.width - enemyImageWithBoundingBox.offset_left)
             new_car = EnemyCar(x, enemyImageWithBoundingBox)
             if self.no_overlap(new_car):
-                self.cars.append(EnemyCar(x, enemyImageWithBoundingBox))
+                self.enemyCars.append(EnemyCar(x, enemyImageWithBoundingBox))
 
     def update_road(self, speed):
         for strip in self.strips:
             strip.update(speed)
 
+    # Create initial road layout
     def create_road(self):
         for x in range(1, NUM_LANES):
             string_x = (WINDOW_WIDTH / NUM_LANES) * x
