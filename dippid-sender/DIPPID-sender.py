@@ -14,11 +14,10 @@ timeSinceLastButtonEvent = time.time()
 num_samples = 100
 sinetime = np.arange(0, 1, 1/num_samples)
 
+# Create 3 different Sinewaves
 sinewave1 = np.sin(2 * np.pi * 1 * sinetime)
-sinewave2 = np.sin(2 * np.pi * 2 * sinetime)
-sinewave3 = np.sin(2 * np.pi * 3 * sinetime)
-
-print(sinewave1)
+sinewave2 = np.sin(2 * np.pi * 1.1 * sinetime)
+sinewave3 = np.sin(2 * np.pi * 1.2 * sinetime)
 
 sincount = 0
 
@@ -26,6 +25,9 @@ while True:
     buttonTime = random.uniform(0.1, 3.0)
     buttonMessage = ''
     accMessage = {}
+    print(sinewave1)
+
+    # random time has passed switch button
     if time.time() > buttonTime + timeSinceLastButtonEvent:
         if buttonClicked:
             buttonMessage = '{"button_1" : ' + str(0) + '}'
@@ -38,11 +40,12 @@ while True:
 
     accMessage = '{"accelerometer": ' + '{"x": ' + str(sinewave1[sincount]) + ', "y": ' + str(sinewave2[sincount]) + ',"z": ' + str(sinewave3[sincount]) + '}}'
 
-    print(accMessage)
+    # print(accMessage)
 
     sock.sendto(buttonMessage.encode(), (IP, PORT))
     sock.sendto(accMessage.encode(), (IP, PORT))
 
+    # reset sinewave if num of samples reached
     if sincount < num_samples-1:
         sincount += 1
     else:

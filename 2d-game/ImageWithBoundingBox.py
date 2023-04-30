@@ -1,6 +1,9 @@
 import pyglet
 
-class SpriteWithBbox:
+# Class that contains image and specified bounding box to handle collision
+
+
+class ImageWithBoundingBox:
 
     def __init__(self, img, offset_left, offset_right, offset_bottom, offset_top):
         self.offset_left = offset_left
