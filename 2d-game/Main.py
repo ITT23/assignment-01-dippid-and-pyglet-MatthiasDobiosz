@@ -21,7 +21,7 @@ playerImage = pyglet.image.load('../assets/Audi.png')
 playerImageWithBoundingBox = ImageWithBoundingBox(playerImage, 80, 80, 10, 27)
 
 enemyImage = pyglet.image.load('../assets/taxi.png')
-enemyImageWithBoundingBox = ImageWithBoundingBox(enemyImage, 70, 80, 20, 10)
+enemyImageWithBoundingBox = ImageWithBoundingBox(enemyImage, 80, 80, 20, 10)
 
 
 # Game class that handles updates and creation of all components
@@ -45,10 +45,10 @@ class Game:
             self.drawGameOverScreen()
             self.checkForRestart()
         else:
-            self.drawLabels()
             self.update_road(self.currentSpeed)
             self.draw_cars()
             self.player.draw()
+            self.drawLabels()
 
     def drawGameOverScreen(self):
         pyglet.text.Label('Game Over',
@@ -113,11 +113,11 @@ class Game:
     def check_collision(self):
         for car in self.cars:
             if car.sprite_y <= self.player.height:
-                if ((car.sprite_x + car.width >= self.player.spriteX) and (
-                        car.sprite_x + car.width <= self.player.spriteX + self.player.width)) or (
-                        (
-                                car.sprite_x <= self.player.spriteX + self.player.width) and (
-                                car.sprite_x > self.player.spriteX)):
+                x1_player = self.player.spriteX
+                x2_player = self.player.spriteX + self.player.width
+                x1_enemy = car.sprite_x
+                x2_enemy = car.sprite_x + car.width
+                if (x1_player <= x2_enemy) and (x2_player >= x1_enemy):
                     self.cars.remove(car)
                     self.player.checkLives()
 
@@ -136,14 +136,14 @@ class Game:
             'Level: ' + str(level),
             font_name='Times New Roman',
             font_size=18,
-            x=50, y=100,
-            anchor_x='center', anchor_y='center').draw()
+            x=10, y=100,
+            anchor_x='left', anchor_y='center').draw()
         pyglet.text.Label(
-            'Score ' + str(self.score),
+            'Score: ' + str(self.score),
             font_name='Times New Roman',
             font_size=18,
-            x=50, y=150,
-            anchor_x='center', anchor_y='center').draw()
+            x=10, y=150,
+            anchor_x='left', anchor_y='center').draw()
 
     def update_cars(self, speed):
         for car in self.cars:
@@ -165,8 +165,9 @@ class Game:
     # Create car in random position
     def create_car(self, delta_time):
         if random.randint(0, 10) == 0:
-            x = random.randint(0,
-                               WINDOW_WIDTH - enemyImageWithBoundingBox.width - enemyImageWithBoundingBox.offset_left)
+           # x = random.randint(0,
+                              # WINDOW_WIDTH - enemyImageWithBoundingBox.width - enemyImageWithBoundingBox.offset_left)
+            x = 280
             new_car = EnemyCar(x, enemyImageWithBoundingBox)
             if self.no_overlap(new_car):
                 self.cars.append(EnemyCar(x, enemyImageWithBoundingBox))

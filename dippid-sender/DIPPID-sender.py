@@ -25,7 +25,6 @@ while True:
     buttonTime = random.uniform(0.1, 3.0)
     buttonMessage = ''
     accMessage = {}
-    print(sinewave1)
 
     # random time has passed switch button
     if time.time() > buttonTime + timeSinceLastButtonEvent:

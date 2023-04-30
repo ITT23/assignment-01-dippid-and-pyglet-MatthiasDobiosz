@@ -20,8 +20,8 @@ class Player:
         self.label = pyglet.text.Label('Lives: ' + str(self.lives),
                                        font_name='Times New Roman',
                                        font_size=18,
-                                       x=50, y=50,
-                                       anchor_x='center', anchor_y='center')
+                                       x=10, y=50,
+                                       anchor_x='left', anchor_y='center')
 
     def draw(self):
         self.sprite.draw()
